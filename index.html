@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Design Club | Web Development & SEO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:    #0b0b0b;
+      --paper:  #f5f0e8;
+      --gold:   #b8963e;
+      --gold-lt:#d4af62;
+      --muted:  #6b6560;
+      --rule:   rgba(184,150,62,.28);
+      --display:'Cormorant Garamond', Georgia, serif;
+      --body:   'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ink);
+      color: var(--paper);
+      font-family: var(--body);
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content:'';
+      position:fixed; inset:0; z-index:0; pointer-events:none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      opacity: .5;
+    }
+
+    section, nav, footer { position: relative; z-index: 1; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 5vw;
+      background: rgba(11,11,11,.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .nav-logo {
+      font-family: var(--display);
+      font-size: 3.35rem;
+      font-weight: 400;
+      letter-spacing: .04em;
+      color: var(--paper);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--gold); font-style: italic; }
+
+    .nav-links { display: flex; gap: 2.4rem; list-style: none; }
+    .nav-links a {
+      color: var(--paper); opacity: .7; text-decoration: none;
+      font-size: .82rem; letter-spacing: .12em; text-transform: uppercase;
+      transition: opacity .2s, color .2s;
+    }
+    .nav-links a:hover { opacity: 1; color: var(--gold-lt); }
+
+    .nav-cta {
+      padding: .55rem 1.5rem;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: var(--body);
+      font-size: .78rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background .25s, color .25s;
+    }
+    .nav-cta:hover { background: var(--gold); color: var(--ink); }
+
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--paper); transition: .3s; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 8rem 5vw 5rem;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(184,150,62,.12) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(184,150,62,.07) 0%, transparent 60%);
+    }
+
+    .hero-label {
+      display: inline-block;
+      font-size: .72rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--rule);
+      padding: .45rem 1.2rem;
+      margin-bottom: 2.4rem;
+      animation: fadeUp .8s ease both;
+    }
+
+    .hero-title {
+      font-family: var(--display);
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 300;
+      line-height: 1.05;
+      color: var(--paper);
+      animation: fadeUp .9s .1s ease both;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold-lt);
+      display: block;
+    }
+
+    .hero-sub {
+      margin-top: 1.8rem;
+      max-width: 520px;
+      margin-left: auto; margin-right: auto;
+      font-size: 1rem;
+      line-height: 1.75;
+      color: rgba(245,240,232,.6);
+      animation: fadeUp 1s .2s ease both;
+    }
+
+    .hero-price {
+      margin-top: 2.8rem;
+      animation: fadeUp 1s .3s ease both;
+      display: flex; align-items: baseline; justify-content: center; gap: .6rem;
+    }
+    .price-from { font-size: .78rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+    .price-num {
+      font-family: var(--display);
+      font-size: 3.2rem;
+      font-weight: 300;
+      color: var(--gold-lt);
+      line-height: 1;
+    }
+    .price-cad { font-size: .9rem; color: var(--muted); align-self: flex-end; }
+
+    .hero-actions {
+      margin-top: 2.8rem;
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      animation: fadeUp 1s .4s ease both;
+    }
+
+    .btn-primary {
+      padding: 1rem 2.4rem;
+      background: var(--gold);
+      color: var(--ink);
+      font-family: var(--body);
+      font-size: .82rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background .25s, transform .2s;
+    }
+    .btn-primary:hover { background: var(--gold-lt); transform: translateY(-2px); }
+
+    .btn-ghost {
+      padding: 1rem 2.4rem;
+      border: 1px solid rgba(245,240,232,.3);
+      color: var(--paper);
+      font-family: var(--body);
+      font-size: .82rem;
+      font-weight: 300;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color .25s, transform .2s;
+    }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold-lt); transform: translateY(-2px); }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      overflow: hidden;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      padding: 1rem 0;
+      background: rgba(184,150,62,.04);
+    }
+    .marquee-track {
+      display: flex; gap: 3rem;
+      animation: marquee 22s linear infinite;
+      width: max-content;
+    }
+    .marquee-item {
+      white-space: nowrap;
+      font-size: .72rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .marquee-item::after { content: '✦'; opacity: .5; }
+
+    /* ── PACKAGE ── */
+    #package {
+      padding: 7rem 5vw;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: .7rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+
+    .section-title {
+      font-family: var(--display);
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-weight: 300;
+      line-height: 1.15;
+      color: var(--paper);
+      margin-bottom: 1.5rem;
+    }
+    .section-title em { font-style: italic; color: var(--gold-lt); }
+
+    .section-body {
+      color: rgba(245,240,232,.6);
+      font-size: .95rem;
+      line-height: 1.85;
+    }
+
+    .features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    .features-list li {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1.3rem 1.6rem;
+      border: 1px solid var(--rule);
+      background: rgba(184,150,62,.04);
+      transition: border-color .25s, background .25s;
+    }
+    .features-list li:hover { border-color: var(--gold); background: rgba(184,150,62,.08); }
+
+    .feat-icon {
+      width: 34px; height: 34px; flex-shrink: 0;
+      border: 1px solid var(--gold);
+      display: grid; place-items: center;
+      font-size: 1rem;
+      color: var(--gold);
+    }
+    .feat-text h4 { font-size: .88rem; font-weight: 500; color: var(--paper); margin-bottom: .2rem; }
+    .feat-text p  { font-size: .8rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── DIVIDER ── */
+    .rule {
+      width: 100%; height: 1px;
+      background: var(--rule);
+      margin: 0 5vw;
+      width: 90vw;
+      display: block;
+    }
+
+    /* ── PORTFOLIO ── */
+    #portfolio {
+      padding: 7rem 5vw;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .portfolio-head { text-align: center; margin-bottom: 3.5rem; }
+
+    .portfolio-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .portfolio-card {
+      border: 1px solid var(--rule);
+      overflow: hidden;
+      position: relative;
+      background: rgba(255,255,255,.02);
+      transition: border-color .3s, transform .3s;
+      text-decoration: none;
+      display: block;
+    }
+    .portfolio-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+
+    .card-preview {
+      width: 100%; height: 210px;
+      overflow: hidden;
+      position: relative;
+    }
+    .card-preview iframe {
+      width: 160%; height: 160%;
+      transform: scale(0.625);
+      transform-origin: top left;
+      pointer-events: none;
+      border: none;
+      display: block;
+    }
+    .card-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(11,11,11,.9) 100%);
+    }
+
+    .card-body { padding: 1.3rem 1.5rem; }
+    .card-domain {
+      font-family: var(--display);
+      font-size: 1.05rem;
+      color: var(--paper);
+      margin-bottom: .3rem;
+    }
+    .card-tag {
+      font-size: .72rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .card-arrow {
+      position: absolute; top: 1.3rem; right: 1.5rem;
+      color: var(--muted);
+      font-size: 1.1rem;
+      transition: color .2s, transform .2s;
+    }
+    .portfolio-card:hover .card-arrow { color: var(--gold-lt); transform: translate(2px,-2px); }
+
+    /* ── WHY ── */
+    #why {
+      padding: 7rem 5vw;
+      background: rgba(184,150,62,.04);
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .why-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 2.5rem;
+    }
+
+    .why-card {
+      padding: 2rem;
+      border: 1px solid var(--rule);
+      background: rgba(11,11,11,.5);
+      transition: border-color .25s;
+    }
+    .why-card:hover { border-color: var(--gold); }
+    .why-num {
+      font-family: var(--display);
+      font-size: 3rem;
+      color: var(--gold);
+      opacity: .35;
+      line-height: 1;
+      margin-bottom: .8rem;
+    }
+    .why-card h3 { font-size: 1rem; font-weight: 500; color: var(--paper); margin-bottom: .8rem; }
+    .why-card p  { font-size: .85rem; line-height: 1.75; color: var(--muted); }
+
+    /* ── CTA ── */
+    #contact {
+      padding: 8rem 5vw;
+      text-align: center;
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    #contact .section-title { font-size: clamp(2.2rem, 5vw, 4.2rem); }
+
+    .contact-line {
+      width: 60px; height: 1px;
+      background: var(--gold);
+      margin: 2rem auto;
+    }
+
+    .contact-info {
+      font-size: .95rem;
+      color: rgba(245,240,232,.55);
+      line-height: 2;
+      margin-bottom: 3rem;
+    }
+    .contact-info a { color: var(--gold-lt); text-decoration: none; }
+    .contact-info a:hover { text-decoration: underline; }
+
+    .contact-domain {
+      display: inline-block;
+      font-family: var(--display);
+      font-size: 1.4rem;
+      letter-spacing: .05em;
+      color: var(--paper);
+      border-bottom: 1px solid var(--gold);
+      padding-bottom: .25rem;
+      margin-bottom: 3rem;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2.2rem 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .footer-logo {
+      font-family: var(--display);
+      font-size: 1.1rem;
+      color: var(--paper);
+    }
+    .footer-logo span { color: var(--gold); font-style: italic; }
+
+    footer p {
+      font-size: .75rem;
+      color: var(--muted);
+      letter-spacing: .06em;
+    }
+
+    /* ── KEYFRAMES ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      #package { grid-template-columns: 1fr; gap: 3rem; }
+      .why-inner { grid-template-columns: 1fr 1fr; }
+      .nav-links, .nav-cta { display: none; }
+      .nav-hamburger { display: flex; }
+    }
+    @media (max-width: 560px) {
+      .why-inner { grid-template-columns: 1fr; }
+      .portfolio-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#hero">The Design<span>Club</span></a>
+    <ul class="nav-links">
+      <li><a href="#package">Services</a></li>
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#why">Why Us</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="#contact">Get Started</a>
+    <div class="nav-hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div>
+      <div class="hero-label">Web Development &amp; SEO — thedesignclub.ca</div>
+      <h1 class="hero-title">
+        Websites that<br>
+        <em>work as hard<br>as you do</em>
+      </h1>
+      <p class="hero-sub">
+        Clean, modern, performance-driven websites tailored to your business needs — delivered with precision and care.
+      </p>
+	  
+      <!-- <div class="hero-price">
+        <span class="price-from">Starting from</span>
+        <span class="price-num">$699</span>
+        <span class="price-cad">CAD</span>
+      </div> -->
+      <div class="hero-actions">
+        <a class="btn-primary" href="#contact">Start Your Project</a>
+        <a class="btn-ghost" href="#portfolio">View Portfolio</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item">Web Development</span>
+      <span class="marquee-item">SEO Optimization</span>
+      <span class="marquee-item">Responsive Design</span>
+      <span class="marquee-item">Domain & Hosting</span>
+      <span class="marquee-item">Performance Driven</span>
+      <span class="marquee-item">Mobile Friendly</span>
+      <span class="marquee-item">Web Development</span>
+      <span class="marquee-item">SEO Optimization</span>
+      <span class="marquee-item">Responsive Design</span>
+      <span class="marquee-item">Domain & Hosting</span>
+      <span class="marquee-item">Performance Driven</span>
+      <span class="marquee-item">Mobile Friendly</span>
+    </div>
+  </div>
+
+  <!-- PACKAGE -->
+  <section id="package">
+    <div class="reveal">
+      <p class="section-label">What's Included</p>
+      <h2 class="section-title">Everything you need<br><em>to launch</em></h2>
+      <p class="section-body">
+        Our all-inclusive $699 CAD package covers every step of getting your business online — from registering your domain to a fully optimised, live website. No hidden fees. No technical headaches.
+      </p>
+    </div>
+    <ul class="features-list reveal">
+      <li>
+        <div class="feat-icon">🌐</div>
+        <div class="feat-text">
+          <h4>Domain Registration &amp; Setup</h4>
+          <p>Your custom domain name — registered, configured, and pointing correctly from day one.</p>
+        </div>
+      </li>
+      <li>
+        <div class="feat-icon">🔒</div>
+        <div class="feat-text">
+          <h4>Secure Hosting Configuration</h4>
+          <p>SSL certificate, reliable hosting environment, and all technical setup handled for you.</p>
+        </div>
+      </li>
+      <li>
+        <div class="feat-icon">📈</div>
+        <div class="feat-text">
+          <h4>Basic On-Page SEO</h4>
+          <p>Meta tags, structured headings, alt text, and page-speed optimisation so Google can find you.</p>
+        </div>
+      </li>
+      <li>
+        <div class="feat-icon">📱</div>
+        <div class="feat-text">
+          <h4>Fully Responsive Design</h4>
+          <p>Pixel-perfect on mobile, tablet, and desktop — your site looks great on every screen.</p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <span class="rule"></span>
+
+  <!-- PORTFOLIO -->
+  <section id="portfolio">
+    <div class="portfolio-head reveal">
+      <p class="section-label">Portfolio</p>
+      <h2 class="section-title">Sites we've <em>built</em></h2>
+    </div>
+    <div class="portfolio-grid">
+
+      <a class="portfolio-card reveal" href="https://liquidationflips.ca" target="_blank" rel="noopener">
+        <div class="card-preview">
+          <iframe src="https://liquidationflips.ca" loading="lazy" title="Liquidation Flips" scrolling="no"></iframe>
+          <div class="card-overlay"></div>
+        </div>
+        <div class="card-body">
+          <p class="card-domain">liquidationflips.ca</p>
+          <p class="card-tag">E-commerce &amp; Retail</p>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a class="portfolio-card reveal" href="https://excellentcaremedical.ca" target="_blank" rel="noopener">
+        <div class="card-preview">
+          <iframe src="https://excellentcaremedical.ca" loading="lazy" title="Excellent Care Medical" scrolling="no"></iframe>
+          <div class="card-overlay"></div>
+        </div>
+        <div class="card-body">
+          <p class="card-domain">excellentcaremedical.ca</p>
+          <p class="card-tag">Healthcare</p>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a class="portfolio-card reveal" href="https://www.cefnavigation.ca" target="_blank" rel="noopener">
+        <div class="card-preview">
+          <iframe src="https://www.cefnavigation.ca" loading="lazy" title="CEF Navigation" scrolling="no"></iframe>
+          <div class="card-overlay"></div>
+        </div>
+        <div class="card-body">
+          <p class="card-domain">cefnavigation.ca</p>
+          <p class="card-tag">Navigation &amp; Technology</p>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a class="portfolio-card reveal" href="https://sumitair.ca" target="_blank" rel="noopener">
+        <div class="card-preview">
+          <iframe src="https://sumitair.ca" loading="lazy" title="Sumit Air" scrolling="no"></iframe>
+          <div class="card-overlay"></div>
+        </div>
+        <div class="card-body">
+          <p class="card-domain">sumitair.ca</p>
+          <p class="card-tag">Travel &amp; Services</p>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+      <a class="portfolio-card reveal" href="https://afauto.ca" target="_blank" rel="noopener">
+        <div class="card-preview">
+          <iframe src="https://afauto.ca" loading="lazy" title="AF Auto" scrolling="no"></iframe>
+          <div class="card-overlay"></div>
+        </div>
+        <div class="card-body">
+          <p class="card-domain">afauto.ca</p>
+          <p class="card-tag">Automotive</p>
+        </div>
+        <span class="card-arrow">↗</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section id="why">
+    <div style="max-width:1200px;margin:0 auto;">
+      <div class="portfolio-head reveal">
+        <p class="section-label">Why The Design Club</p>
+        <h2 class="section-title">Built on <em>results</em></h2>
+      </div>
+      <div class="why-inner">
+        <div class="why-card reveal">
+          <div class="why-num">01</div>
+          <h3>Affordable &amp; All-Inclusive</h3>
+          <p>Professional-grade websites starting at $699 CAD — domain, hosting, SEO, and design all in one transparent price.</p>
+        </div>
+        <div class="why-card reveal">
+          <div class="why-num">02</div>
+          <h3>Speed &amp; Performance</h3>
+          <p>Every site is optimised for fast load times — better user experience and higher rankings on Google.</p>
+        </div>
+        <div class="why-card reveal">
+          <div class="why-num">03</div>
+          <h3>Mobile-First Design</h3>
+          <p>Over 60% of traffic is mobile. Every site is built to look and perform flawlessly on any device.</p>
+        </div>
+        <div class="why-card reveal">
+          <div class="why-num">04</div>
+          <h3>SEO From Day One</h3>
+          <p>On-page SEO best practices are baked into every project — so your site is discoverable from launch day.</p>
+        </div>
+        <div class="why-card reveal">
+          <div class="why-num">05</div>
+          <h3>Tailored to Your Business</h3>
+          <p>No templates. Every website is custom-designed to reflect your brand, industry, and goals.</p>
+        </div>
+        <div class="why-card reveal">
+          <div class="why-num">06</div>
+          <h3>Proven Portfolio</h3>
+          <p>A growing portfolio of live Canadian businesses — from healthcare to auto to e-commerce.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <p class="section-label reveal">Get In Touch</p>
+    <h2 class="section-title reveal">Ready to build<br><em>something great?</em></h2>
+    <div class="contact-line reveal"></div>
+    <p class="contact-info reveal">
+      Reach out to discuss your requirements in detail.<br>
+      We'll help bring your vision to life — beautifully and affordably.
+    </p>
+    <div class="contact-domain reveal">thedesignclub.ca</div>
+    <div class="reveal" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+      <a class="btn-primary" href="mailto:hello@thedesignclub.ca">Email Us</a>
+      <a class="btn-ghost" href="#portfolio">See Our Work</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">The Design<span>Club</span></div>
+    <p>© 2025 thedesignclub.ca — Web Development &amp; SEO, Canada</p>
+    <p style="font-size:.72rem;color:var(--muted);">Professional websites starting at $699 CAD</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
