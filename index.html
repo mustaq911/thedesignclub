@@ -423,7 +423,29 @@
 
     /* ── SCROLL REVEAL ── */
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal.visible { opacity: 1; transform: translateY(0); } 
+	
+	/*
+	.reveal {
+	  opacity: 0;
+	  transform: translateY(40px);
+	  transition:
+		opacity 2.95s cubic-bezier(.22, 1, .36, 1),
+		transform 2.95s cubic-bezier(.22, 1, .36, 1);
+	  will-change: opacity, transform;
+	}
+
+	#package > .reveal:last-child {
+	  transition-delay: .2s;
+	}
+
+	.reveal.visible {
+	  opacity: 1;
+	  transform: translateY(0);
+	}*/
+	
+	
+	
 
     /* ── RESPONSIVE ── */
     @media (max-width: 960px) { .services-grid { grid-template-columns: 1fr 1fr; } }
@@ -451,7 +473,7 @@
 	  overflow: hidden;
 	  background:
 		/*linear-gradient(rgba(11,11,11,0.55), rgba(11,11,11,0.55)),*/
-		linear-gradient(rgba(11,11,11,0.7), rgba(11,11,11,0.7)),
+		linear-gradient(rgba(11,11,11,0.4), rgba(11,11,11,0.4)),
 		url("img/home-bg.jpg") center center / cover no-repeat;
 	}
 	
