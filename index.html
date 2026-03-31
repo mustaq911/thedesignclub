@@ -452,8 +452,24 @@
 	  background:
 		/*linear-gradient(rgba(11,11,11,0.55), rgba(11,11,11,0.55)),*/
 		linear-gradient(rgba(11,11,11,0.7), rgba(11,11,11,0.7)),
-		url("home-bg.jpg") center center / cover no-repeat;
+		url("img/home-bg.jpg") center center / cover no-repeat;
 	}
+	
+	.package-image-wrap {
+	  margin-top: 2rem;
+	  width: 100%;
+	  overflow: hidden;
+	  border: 1px solid var(--rule);
+	  background: rgba(184,150,62,.04);
+	}
+
+	.package-image {
+	  display: block;
+	  width: 100%;
+	  height: auto;
+	  object-fit: cover;
+	}
+	
   </style>
 </head>
 <body>
@@ -605,12 +621,23 @@
   <!-- PACKAGE -->
   <section id="package">
     <div class="reveal">
-      <p class="section-label">Website Package</p>
-      <h2 class="section-title">Everything you need<br><em>to launch</em></h2>
-      <p class="section-body">
-        Our all-inclusive website package covers every step of getting your business online — from registering your domain to a fully optimised, live website. No hidden fees. No technical headaches. Just a professional presence that works from day one.
-      </p>
-    </div>
+	  <p class="section-label">Website Package</p>
+	  <h2 class="section-title">Everything you need<br><em>to launch</em></h2>
+	  <p class="section-body">
+		Our all-inclusive website package covers every step of getting your business online — from registering your domain to a fully optimised, live website. No hidden fees. No technical headaches. Just a professional presence that works from day one.
+	  </p>
+
+	  <div class="package-image-wrap">
+		<img src="img/about.jpg" alt="Office team" class="package-image">
+	  </div>
+	</div>
+	<!--	<div class="reveal">
+		  <p class="section-label">Website Package</p>
+		  <h2 class="section-title">Everything you need<br><em>to launch</em></h2>
+		  <p class="section-body">
+			Our all-inclusive website package covers every step of getting your business online — from registering your domain to a fully optimised, live website. No hidden fees. No technical headaches. Just a professional presence that works from day one.
+		  </p>
+		</div> -->
     <ul class="features-list reveal">
       <li>
         <div class="feat-icon">🌐</div>
@@ -640,6 +667,13 @@
           <p>Pixel-perfect on mobile, tablet, and desktop — your site looks great on every screen.</p>
         </div>
       </li>
+	  <li>
+	    <div class="feat-icon">⚡</div>
+	    <div class="feat-text">
+		  <h4>Performance Optimisation</h4>
+		  <p>Fast-loading pages, clean code, and speed-focused optimisation to improve user experience and overall site performance.</p>
+	    </div>
+	  </li>
     </ul>
   </section>
 
